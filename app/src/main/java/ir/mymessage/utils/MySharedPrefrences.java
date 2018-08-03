@@ -2,7 +2,8 @@ package ir.mymessage.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import ir.mymessage.model.User;
+
+import ir.mymessage.model.remote.User;
 
 public class MySharedPrefrences {
 
@@ -16,21 +17,31 @@ public class MySharedPrefrences {
 
     public void saveUserInfo(User user) {
         mPreferences.edit()
-                .putInt("userId",user.getUserId())
+                .putString("userId",user.getUserId())
                 .putString("username", user.getUsername())
                 .putString("nickname", user.getNickname())
-                .putString("profileImage", user.getProfile_image())
+                .putString("profileImage", user.getProfileImage())
                 .apply();
     }
 
     public User getUserInfo() {
         User user = new User();
-        user.setUserId(mPreferences.getInt("userId",0));
+        user.setUserId(mPreferences.getString("userId",""));
         user.setUsername(mPreferences.getString("username",""));
         user.setNickname(mPreferences.getString("nickname",""));
-        user.setProfile_image(mPreferences.getString("profileImage",""));
+        user.setProfileImage(mPreferences.getString("profileImage",""));
 
         return user;
     }
 
+    public void login(){
+        mPreferences.edit()
+                .putBoolean("isLoggedIn",true)
+                .apply();
+    }
+
+    public Boolean isLoggedIn(){
+        return mPreferences.getBoolean("isLoggedIn",false);
+
+    };
 }

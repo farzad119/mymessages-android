@@ -19,8 +19,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name="ir.mymessage.view.activities.MainActivity" />
+        <activity android:name="ir.mymessage.view.activities.DialogsActivity" />
+        <activity android:name="ir.mymessage.view.activities.MessagesActivity" />
+        <activity android:name="ir.mymessage.view.activities.FriendActivity"/>
     </application>
 
 </manifest>

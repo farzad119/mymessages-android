@@ -1,8 +1,10 @@
 package ir.mymessage.view.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.mymessage.R;
 import ir.mymessage.presenter.LoginPresenter;
+import ir.mymessage.utils.MySharedPrefrences;
 import ir.mymessage.view.base.BaseActivity;
 import ir.mymessage.view.interfaces.LoginInterface;
 import android.os.Bundle;
@@ -24,6 +26,7 @@ public class LoginActivity extends BaseActivity implements LoginInterface {
 
     private LoginPresenter presenter;
 
+
     @Override
     protected int getContentViewRes() {
         return R.layout.activity_login;
@@ -34,6 +37,7 @@ public class LoginActivity extends BaseActivity implements LoginInterface {
         super.onCreate(savedInstanceState);
 
         presenter = new LoginPresenter(this);
+        setupLoginActivity();
     }
 
     @Override
@@ -49,12 +53,16 @@ public class LoginActivity extends BaseActivity implements LoginInterface {
     @Override
     public void setupLoginActivity() {
 
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onLoginClicked();
-            }
-        });
+        if (new MySharedPrefrences(LoginActivity.this).isLoggedIn()){
+            startDialogsActivity();
+        }else {
+            btnLogin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onLoginClicked();
+                }
+            });
+        }
     }
 
     @Override
@@ -63,12 +71,19 @@ public class LoginActivity extends BaseActivity implements LoginInterface {
     }
 
     @Override
-    public void startMainActivity() {
-        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+    public Context getContext() {
+        return LoginActivity.this;
     }
 
     @Override
-    public void showUsernamePassword() {
-        Toast.makeText(this, getUserName()+"-"+getPassword(), Toast.LENGTH_SHORT).show();
+    public void startDialogsActivity() {
+
+        startActivity(new Intent(LoginActivity.this, DialogsActivity.class));
+        finish();
+    }
+
+    @Override
+    public void showUsernamePasswordError() {
+        Toast.makeText(this, "نام کاربری یا کلمه عبور اشتباه است", Toast.LENGTH_SHORT).show();
     }
 }

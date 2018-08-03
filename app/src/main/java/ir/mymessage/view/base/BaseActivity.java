@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 
 import butterknife.ButterKnife;
 import io.reactivex.annotations.Nullable;
+import ir.mymessage.service.ApiClient;
+import ir.mymessage.service.ApiInterface;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
