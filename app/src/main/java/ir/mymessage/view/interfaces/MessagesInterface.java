@@ -9,6 +9,7 @@ import ir.mymessage.model.local.MessageLocal;
 public interface MessagesInterface {
     void setupMessagesActivity();
     void displayMessages(ArrayList<MessageLocal> messageArrayList);
-
+    void visibleSendingStatus();
+    void hideSendingStatus();
     Context getContext();
 }

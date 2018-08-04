@@ -28,44 +28,56 @@ public class DialogsPresenter extends BasePresenter {
     }
 
     public void getDialogs() {
-        apiService.dialogs( new MySharedPrefrences(dialogsInterface.getContext()).getUserInfo().getUserId())
+        apiService.dialogs(new MySharedPrefrences(dialogsInterface.getContext()).getUserInfo().getUserId())
                 .enqueue(new Callback<ArrayList<FriendsResponse>>() {
                     @Override
                     public void onResponse(Call<ArrayList<FriendsResponse>> call, Response<ArrayList<FriendsResponse>> response) {
-                        if (response.isSuccessful()){
-
+                        if (response.isSuccessful()) {
+                            String userId = new MySharedPrefrences(dialogsInterface.getContext()).getUserInfo().getUserId();
                             ArrayList<UserLocal> userArrayList = new ArrayList<>();
                             ArrayList<DialogLocal> dialogArrayList = new ArrayList<>();
 
                             for (FriendsResponse friendsResponse : response.body()) {
-                                UserLocal user = new UserLocal(""
-                                        ,""
-                                        , "test"
+                                UserLocal user = new UserLocal(
+                                        friendsResponse.getFriendUserId()
+                                        , friendsResponse.getFriendNickname()
+                                        , null
                                         , false);
                                 userArrayList.add(user);
 
-                                MessageLocal message = new MessageLocal("0", user, "Hi");
+                                MessageLocal message = new MessageLocal(friendsResponse.getFriendUserId(), user, "Tap to see messages");
 
-                                DialogLocal dialog = new DialogLocal(friendsResponse.getFriendId()
-                                        ,friendsResponse.getFriendNickname()
-                                        ,"https://image.flaticon.com/icons/png/128/149/149071.png"
-                                        ,userArrayList
-                                        ,message
-                                        ,0);
-
+                                DialogLocal dialog;
+                                if (userId.equals(friendsResponse.getUserId())){
+                                    dialog = new DialogLocal(
+                                            friendsResponse.getFriendId()
+                                            , friendsResponse.getFriendNickname()
+                                            , null
+                                            , userArrayList
+                                            , message
+                                            , 0);
+                                }else {
+                                    dialog = new DialogLocal(
+                                            friendsResponse.getFriendId()
+                                            , friendsResponse.getNickname()
+                                            , null
+                                            , userArrayList
+                                            , message
+                                            , 0);
+                                }
                                 dialogArrayList.add(dialog);
                             }
 
                             dialogsInterface.displayDialogs(dialogArrayList);
 
-                        }else {
-                            Log.wtf("DialogPresenter", "onResponse unSuccess: "+response.raw());
+                        } else {
+                            Log.wtf("DialogPresenter", "onResponse unSuccess: " + response.raw());
                         }
                     }
 
                     @Override
                     public void onFailure(Call<ArrayList<FriendsResponse>> call, Throwable t) {
-                        Log.wtf("DialogPresenter", "onFailure: "+t.toString());
+                        Log.wtf("DialogPresenter", "onFailure: " + t.toString());
                     }
                 });
 

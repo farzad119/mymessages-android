@@ -1,42 +1,81 @@
 package ir.mymessage.presenter;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 import ir.mymessage.model.local.MessageLocal;
 import ir.mymessage.model.local.UserLocal;
+import ir.mymessage.model.remote.Message;
+import ir.mymessage.model.response.MessagesResponse;
+import ir.mymessage.model.response.SendMessageResponse;
+import ir.mymessage.utils.GeneralUtils;
+import ir.mymessage.utils.MySharedPrefrences;
 import ir.mymessage.view.base.BasePresenter;
 import ir.mymessage.view.interfaces.DialogsInterface;
 import ir.mymessage.view.interfaces.MessagesInterface;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-public class MessagesPresenter extends BasePresenter{
+public class MessagesPresenter extends BasePresenter {
 
     private final MessagesInterface messagesInterface;
+    private GeneralUtils generalUtils;
 
     public MessagesPresenter(MessagesInterface messagesInterface) {
         this.messagesInterface = messagesInterface;
+        generalUtils = new GeneralUtils(messagesInterface.getContext());
     }
 
-    public void getMessages(){
+    public void getMessages(final String friendId) {
+        Log.wtf("MessagesPresenter", "friendId : " + friendId);
 
-        ArrayList<MessageLocal> messageArrayList = new ArrayList<>();
-        ArrayList<UserLocal> userArrayList = new ArrayList<>();
-
-        for (int i = 0; i < 10; i++) {
-            UserLocal user;
-            MessageLocal message;
-            if (i<5) {
-                user = new UserLocal("11", "Farzad", "https://image.flaticon.com/icons/png/128/149/149071.png", false);
-                message = new MessageLocal(""+i, user, "سلام، خوبید؟");
-            }else {
-                user = new UserLocal("1", "Fatemh", "https://image.flaticon.com/icons/png/128/149/149071.png", false);
-                message = new MessageLocal(""+i, user, "سلام");
+        apiService.messages(friendId).enqueue(new Callback<ArrayList<MessagesResponse>>() {
+            @Override
+            public void onResponse(Call<ArrayList<MessagesResponse>> call, Response<ArrayList<MessagesResponse>> response) {
+                if (response.isSuccessful() && response.body().size() > 0) {
+                    ArrayList<MessageLocal> messageArrayList = new ArrayList<>();
+                    for (MessagesResponse messagesResponse : response.body()) {
+                        UserLocal user = new UserLocal(messagesResponse.getUserId(), "my name", null, false);
+                        MessageLocal message = new MessageLocal(messagesResponse.getId()
+                                , user
+                                , messagesResponse.getContent()
+                                ,generalUtils.dateParser(messagesResponse.getCreatedAt()));
+                        messageArrayList.add(message);
+                    }
+                    messagesInterface.displayMessages(messageArrayList);
+                }
             }
 
-            userArrayList.add(user);
-            messageArrayList.add(message);
-        }
+            @Override
+            public void onFailure(Call<ArrayList<MessagesResponse>> call, Throwable t) {
+                Log.wtf("MessagePresenter", "onFailure");
+            }
+        });
+    }
 
-       messagesInterface.displayMessages(messageArrayList);
+    public void sendMessage(String content, String friendId, String toUserId) {
+        Message message = new Message();
+        message.setUserId(new MySharedPrefrences(messagesInterface.getContext()).getUserInfo().getUserId());
+        message.setToUserId(toUserId);
+        message.setFriendId(friendId);
+        message.setNickname(new MySharedPrefrences(messagesInterface.getContext()).getUserInfo().getNickname());
+        message.setContent(content);
+
+        apiService.sendMessage(message).enqueue(new Callback<SendMessageResponse>() {
+            @Override
+            public void onResponse(Call<SendMessageResponse> call, Response<SendMessageResponse> response) {
+                if (response.isSuccessful()) {
+                    messagesInterface.hideSendingStatus();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SendMessageResponse> call, Throwable t) {
+                Log.wtf("MessagePresenter", "onFailure : " + t.toString());
+            }
+        });
 
     }
 }

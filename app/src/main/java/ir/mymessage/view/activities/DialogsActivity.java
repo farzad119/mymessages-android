@@ -52,6 +52,7 @@ public class DialogsActivity extends BaseActivity implements DialogsInterface {
         Intent intent = new Intent(DialogsActivity.this, MessagesActivity.class);
         intent.putExtra("friend_id", dialogLocal.getId());
         intent.putExtra("friend_nickname", dialogLocal.getDialogName());
+        intent.putExtra("friend_user_id", dialogLocal.getUsers().get(0).getId());
         startActivity(intent);
     }
 
@@ -71,7 +72,7 @@ public class DialogsActivity extends BaseActivity implements DialogsInterface {
         dialogsListAdapter = new DialogsListAdapter<>(new ImageLoader() {
             @Override
             public void loadImage(ImageView imageView, String url) {
-                Glide.with(DialogsActivity.this).load(url).into(imageView);
+                //Glide.with(DialogsActivity.this).load(url).into(imageView);
             }
         });
 

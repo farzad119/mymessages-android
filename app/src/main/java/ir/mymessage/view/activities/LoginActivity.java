@@ -8,10 +8,17 @@ import ir.mymessage.utils.MySharedPrefrences;
 import ir.mymessage.view.base.BaseActivity;
 import ir.mymessage.view.interfaces.LoginInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import butterknife.BindView;
 
@@ -52,7 +59,6 @@ public class LoginActivity extends BaseActivity implements LoginInterface {
 
     @Override
     public void setupLoginActivity() {
-
         if (new MySharedPrefrences(LoginActivity.this).isLoggedIn()){
             startDialogsActivity();
         }else {

@@ -9,7 +9,8 @@
         android:id="@+id/messagesList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/input"/>
+        android:layout_above="@+id/tv_sending_message"
+        app:incomingAvatarWidth="0dp" />
 
     <View
         android:layout_width="match_parent"
@@ -19,12 +20,21 @@
         android:layout_marginRight="16dp"
         android:background="@color/gray"/>
 
+    <TextView
+        android:id="@+id/tv_sending_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/input"
+        android:gravity="center_horizontal"
+        android:text="Sending message ..."
+        android:visibility="gone" />
+
     <com.stfalcon.chatkit.messages.MessageInput
         android:id="@+id/input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        app:inputHint="Hint enter a message"
+        app:inputHint="Enter a message"
         app:showAttachmentButton="true"/>
 
 </RelativeLayout>

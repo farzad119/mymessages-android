@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1044843027079",
+    "firebase_url": "https://personal-apps-e4162.firebaseio.com",
+    "project_id": "personal-apps-e4162",
+    "storage_bucket": "personal-apps-e4162.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1044843027079:android:b10a1c8ab3e375e4",
+        "android_client_info": {
+          "package_name": "ir.mymessage"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1044843027079-jdq9u3964irs30gfhg13d0om18ra4aun.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVAh4IfhlwcCpyS9H6sxL61dYc8z81j_w"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

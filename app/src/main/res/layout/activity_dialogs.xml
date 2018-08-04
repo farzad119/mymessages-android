@@ -11,6 +11,6 @@
         android:id="@+id/dialogsList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:dialogMessageAvatarEnabled="false" />
+        app:dialogAvatarWidth="0dp"/>
 
 </RelativeLayout>
