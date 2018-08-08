@@ -4,15 +4,12 @@ import com.google.gson.annotations.SerializedName;
 
 public class UpdateFcmToken {
     @SerializedName("user_id")
-    private String userId;
-    @SerializedName("user_id")
     private String token;
-
-    public UpdateFcmToken() {
-    }
+    @SerializedName("user_id")
+    private String userId;
 
     public String getUserId() {
-        return userId;
+        return this.userId;
     }
 
     public void setUserId(String userId) {
@@ -20,7 +17,7 @@ public class UpdateFcmToken {
     }
 
     public String getToken() {
-        return token;
+        return this.token;
     }
 
     public void setToken(String token) {

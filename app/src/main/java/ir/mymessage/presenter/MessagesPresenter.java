@@ -1,5 +1,7 @@
 package ir.mymessage.presenter;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -37,7 +39,7 @@ public class MessagesPresenter extends BasePresenter {
                 if (response.isSuccessful() && response.body().size() > 0) {
                     ArrayList<MessageLocal> messageArrayList = new ArrayList<>();
                     for (MessagesResponse messagesResponse : response.body()) {
-                        UserLocal user = new UserLocal(messagesResponse.getUserId(), "my name", null, false);
+                        UserLocal user = new UserLocal(messagesResponse.getUserId(), "my name", null, false,"");
                         MessageLocal message = new MessageLocal(messagesResponse.getId()
                                 , user
                                 , messagesResponse.getContent()
@@ -55,7 +57,7 @@ public class MessagesPresenter extends BasePresenter {
         });
     }
 
-    public void sendMessage(String content, String friendId, String toUserId) {
+    public void sendMessage(final String content, final String fcmToken, final String friendId, final String toUserId) {
         Message message = new Message();
         message.setUserId(new MySharedPrefrences(messagesInterface.getContext()).getUserInfo().getUserId());
         message.setToUserId(toUserId);
@@ -68,6 +70,7 @@ public class MessagesPresenter extends BasePresenter {
             public void onResponse(Call<SendMessageResponse> call, Response<SendMessageResponse> response) {
                 if (response.isSuccessful()) {
                     messagesInterface.hideSendingStatus();
+                    pushMessage(content, fcmToken, friendId, toUserId);
                 }
             }
 
@@ -77,5 +80,33 @@ public class MessagesPresenter extends BasePresenter {
             }
         });
 
+    }
+
+    public void pushMessage(String content, String fcmToken, String friendId, String toUserId) {
+        Message message = new Message();
+        message.setUserId(new MySharedPrefrences(this.messagesInterface.getContext()).getUserInfo().getUserId());
+        message.setToUserId(toUserId);
+        message.setFriendId(friendId);
+        message.setNickname(new MySharedPrefrences(this.messagesInterface.getContext()).getUserInfo().getNickname());
+        message.setContent(content);
+        message.setFcmToken(fcmToken);
+
+        this.apiService.pushMessage(message).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                Log.wtf("MessagePresenter", "onResponse: "+response.body());
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public void clearNotification(String friendId) {
+        NotificationManager notificationManager =
+                (NotificationManager) messagesInterface.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancel(Integer.valueOf(friendId));
     }
 }

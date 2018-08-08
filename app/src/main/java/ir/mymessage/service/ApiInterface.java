@@ -15,18 +15,21 @@ import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface ApiInterface {
+    @POST("allfriends")
+    Call<ArrayList<FriendsResponse>> dialogs(@Query("user_id") String str);
+
     @POST("login")
     Call<LoginResponse> login(@Body User user);
 
-    @POST("updatefcmtoken")
-    Call<String> updateFcmToken(@Query("user_id") String userId,@Query("fcm_token") String token);
-
-    @POST("allfriends")
-    Call<ArrayList<FriendsResponse>> dialogs(@Query("user_id") String userId);
-
     @POST("messages")
-    Call<ArrayList<MessagesResponse>> messages(@Query("friend_id") String friendId);
+    Call<ArrayList<MessagesResponse>> messages(@Query("friend_id") String str);
+
+    @POST("push-notification")
+    Call<String> pushMessage(@Body Message message);
 
     @POST("message")
     Call<SendMessageResponse> sendMessage(@Body Message message);
+
+    @POST("updatefcmtoken")
+    Call<String> updateFcmToken(@Query("user_id") String str, @Query("fcm_token") String str2);
 }

@@ -8,18 +8,14 @@ import java.util.ArrayList;
  * Created by troy379 on 04.04.17.
  */
 public class DialogLocal implements IDialog<MessageLocal> {
-
-    private String id;
-    private String dialogPhoto;
     private String dialogName;
-    private ArrayList<UserLocal> users;
+    private String dialogPhoto;
+    private String id;
     private MessageLocal lastMessage;
-
     private int unreadCount;
+    private ArrayList<UserLocal> users;
 
-    public DialogLocal(String id, String name, String photo,
-                       ArrayList<UserLocal> users, MessageLocal lastMessage, int unreadCount) {
-
+    public DialogLocal(String id, String name, String photo, ArrayList<UserLocal> users, MessageLocal lastMessage, int unreadCount) {
         this.id = id;
         this.dialogName = name;
         this.dialogPhoto = photo;
@@ -28,39 +24,32 @@ public class DialogLocal implements IDialog<MessageLocal> {
         this.unreadCount = unreadCount;
     }
 
-    @Override
     public String getId() {
-        return id;
+        return this.id;
     }
 
-    @Override
     public String getDialogPhoto() {
-        return dialogPhoto;
+        return this.dialogPhoto;
     }
 
-    @Override
     public String getDialogName() {
-        return dialogName;
+        return this.dialogName;
     }
 
-    @Override
     public ArrayList<UserLocal> getUsers() {
-        return users;
+        return this.users;
     }
 
-    @Override
     public MessageLocal getLastMessage() {
-        return lastMessage;
+        return this.lastMessage;
     }
 
-    @Override
     public void setLastMessage(MessageLocal lastMessage) {
         this.lastMessage = lastMessage;
     }
 
-    @Override
     public int getUnreadCount() {
-        return unreadCount;
+        return this.unreadCount;
     }
 
     public void setUnreadCount(int unreadCount) {

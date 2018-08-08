@@ -49,10 +49,11 @@ public class DialogsActivity extends BaseActivity implements DialogsInterface {
 
     @Override
     public void startMessagesActivity(DialogLocal dialogLocal) {
-        Intent intent = new Intent(DialogsActivity.this, MessagesActivity.class);
+        Intent intent = new Intent(this, MessagesActivity.class);
         intent.putExtra("friend_id", dialogLocal.getId());
         intent.putExtra("friend_nickname", dialogLocal.getDialogName());
-        intent.putExtra("friend_user_id", dialogLocal.getUsers().get(0).getId());
+        intent.putExtra("friend_user_id", (dialogLocal.getUsers().get(0)).getId());
+        intent.putExtra("friend_fcm_token", (dialogLocal.getUsers().get(0)).getFcmToken());
         startActivity(intent);
     }
 

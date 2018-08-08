@@ -2,24 +2,24 @@ package ir.mymessage.model.remote;
 
 import com.google.gson.annotations.SerializedName;
 
-public class User{
+public class User {
+	private String createdAt;
 	private int id;
+	private String joinedOn;
+	@SerializedName("nickname")
+	String nickname;
+	@SerializedName("password")
+	String password;
+	@SerializedName("profile_image")
+	String profileImage;
+	private String updatedAt;
 	@SerializedName("user_id")
 	String userId;
 	@SerializedName("username")
 	String username;
-	@SerializedName("password")
-	String password;
-	@SerializedName("nickname")
-	String nickname;
-	@SerializedName("profile_image")
-	String profileImage;
-	private String updatedAt;
-	private String createdAt;
-	private String joinedOn;
 
 	public int getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(int id) {
@@ -27,7 +27,7 @@ public class User{
 	}
 
 	public String getUserId() {
-		return userId;
+		return this.userId;
 	}
 
 	public void setUserId(String userId) {
@@ -35,7 +35,7 @@ public class User{
 	}
 
 	public String getUsername() {
-		return username;
+		return this.username;
 	}
 
 	public void setUsername(String username) {
@@ -43,7 +43,7 @@ public class User{
 	}
 
 	public String getPassword() {
-		return password;
+		return this.password;
 	}
 
 	public void setPassword(String password) {
@@ -51,7 +51,7 @@ public class User{
 	}
 
 	public String getNickname() {
-		return nickname;
+		return this.nickname;
 	}
 
 	public void setNickname(String nickname) {
@@ -59,7 +59,7 @@ public class User{
 	}
 
 	public String getProfileImage() {
-		return profileImage;
+		return this.profileImage;
 	}
 
 	public void setProfileImage(String profileImage) {
@@ -67,7 +67,7 @@ public class User{
 	}
 
 	public String getUpdatedAt() {
-		return updatedAt;
+		return this.updatedAt;
 	}
 
 	public void setUpdatedAt(String updatedAt) {
@@ -75,7 +75,7 @@ public class User{
 	}
 
 	public String getCreatedAt() {
-		return createdAt;
+		return this.createdAt;
 	}
 
 	public void setCreatedAt(String createdAt) {
@@ -83,7 +83,7 @@ public class User{
 	}
 
 	public String getJoinedOn() {
-		return joinedOn;
+		return this.joinedOn;
 	}
 
 	public void setJoinedOn(String joinedOn) {

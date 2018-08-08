@@ -1,10 +1,6 @@
 package ir.mymessage.presenter;
 
 import android.util.Log;
-import android.widget.ImageView;
-
-import com.stfalcon.chatkit.commons.ImageLoader;
-import com.stfalcon.chatkit.dialogs.DialogsListAdapter;
 
 import java.util.ArrayList;
 
@@ -33,43 +29,15 @@ public class DialogsPresenter extends BasePresenter {
                     @Override
                     public void onResponse(Call<ArrayList<FriendsResponse>> call, Response<ArrayList<FriendsResponse>> response) {
                         if (response.isSuccessful()) {
-                            String userId = new MySharedPrefrences(dialogsInterface.getContext()).getUserInfo().getUserId();
                             ArrayList<UserLocal> userArrayList = new ArrayList<>();
                             ArrayList<DialogLocal> dialogArrayList = new ArrayList<>();
-
                             for (FriendsResponse friendsResponse : response.body()) {
-                                UserLocal user = new UserLocal(
-                                        friendsResponse.getFriendUserId()
-                                        , friendsResponse.getFriendNickname()
-                                        , null
-                                        , false);
+                                Log.wtf("DialogsPresenter", friendsResponse.getFriendId());
+                                UserLocal user = new UserLocal(friendsResponse.getFriendUserId(), friendsResponse.getFriendNickname(), null, false, friendsResponse.getFcmToken());
                                 userArrayList.add(user);
-
-                                MessageLocal message = new MessageLocal(friendsResponse.getFriendUserId(), user, "Tap to see messages");
-
-                                DialogLocal dialog;
-                                if (userId.equals(friendsResponse.getUserId())){
-                                    dialog = new DialogLocal(
-                                            friendsResponse.getFriendId()
-                                            , friendsResponse.getFriendNickname()
-                                            , null
-                                            , userArrayList
-                                            , message
-                                            , 0);
-                                }else {
-                                    dialog = new DialogLocal(
-                                            friendsResponse.getFriendId()
-                                            , friendsResponse.getNickname()
-                                            , null
-                                            , userArrayList
-                                            , message
-                                            , 0);
-                                }
-                                dialogArrayList.add(dialog);
+                                dialogArrayList.add(new DialogLocal(friendsResponse.getFriendId(), friendsResponse.getFriendNickname(), null, userArrayList, new MessageLocal(friendsResponse.getFriendUserId(), user, "Tap to see messages"), 0));
                             }
-
-                            dialogsInterface.displayDialogs(dialogArrayList);
-
+                            DialogsPresenter.this.dialogsInterface.displayDialogs(dialogArrayList);
                         } else {
                             Log.wtf("DialogPresenter", "onResponse unSuccess: " + response.raw());
                         }
@@ -80,30 +48,6 @@ public class DialogsPresenter extends BasePresenter {
                         Log.wtf("DialogPresenter", "onFailure: " + t.toString());
                     }
                 });
-
-        /*ArrayList<DialogLocal> dialogArrayList = new ArrayList<>();
-
-        for (int i = 0; i < 10; i++) {
-            UserLocal user = new UserLocal("852", "farzad", "test", false);
-            ArrayList<UserLocal> userArrayList = new ArrayList<>();
-            userArrayList.add(user);
-
-            MessageLocal message = new MessageLocal("741", user, "Hi");
-
-            DialogLocal dialog = new DialogLocal("852", "farzad", "", userArrayList, message, 2);
-            dialogArrayList.add(dialog);
-        }
-
-        DialogsListAdapter<DialogLocal> dialogsListAdapter = new DialogsListAdapter<>(new ImageLoader() {
-            @Override
-            public void loadImage(ImageView imageView, String url) {
-                Log.wtf("Dialogs", "loadImage: " + url);
-            }
-        });
-
-        dialogsListAdapter.addItems(dialogArrayList);
-        dialogsList.setAdapter(dialogsListAdapter);*/
-
     }
 
 }

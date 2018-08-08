@@ -1,8 +1,12 @@
 package ir.mymessage.view.activities;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.mymessage.R;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -36,11 +40,14 @@ public class MessagesActivity extends BaseActivity implements MessagesInterface 
     @BindView(R.id.tv_sending_message)
     TextView tvSendingMessage;
 
+    public static boolean isMessageActivityRunning = false;
     MessagesPresenter presenter;
     MessagesListAdapter<MessageLocal> adapter;
+    BroadcastReceiver broadcastReceiver;
+    String friendFcmToken;
     String friendId;
-    String friendUserId;
     String friendNickname;
+    String friendUserId;
 
     @Override
     protected int getContentViewRes() {
@@ -53,9 +60,16 @@ public class MessagesActivity extends BaseActivity implements MessagesInterface 
         friendId = getIntent().getStringExtra("friend_id");
         friendUserId = getIntent().getStringExtra("friend_user_id");
         friendNickname = getIntent().getStringExtra("friend_nickname");
-
+        friendFcmToken = getIntent().getStringExtra("friend_fcm_token");
         presenter = new MessagesPresenter(this);
         setupMessagesActivity();
+    }
+
+    @Override
+    public void addMessage(String content, String userId) {
+        if (this.adapter != null) {
+            this.adapter.addToStart(new MessageLocal("", new UserLocal(userId, null, null, false, ""), content), true);
+        }
     }
 
     @Override
@@ -73,18 +87,23 @@ public class MessagesActivity extends BaseActivity implements MessagesInterface 
         input.setInputListener(new MessageInput.InputListener() {
             @Override
             public boolean onSubmit(CharSequence input) {
-                UserLocal user = new UserLocal(new MySharedPrefrences(getContext()).getUserInfo().getUserId()
-                        , null
-                        , null
-                        , false);
-
-                MessageLocal message = new MessageLocal("", user, input.toString());
-                adapter.addToStart(message, true);
-                presenter.sendMessage(input.toString(),friendId,friendUserId);
+                MessagesActivity.this.addMessage(input.toString(), new MySharedPrefrences(MessagesActivity.this.getContext()).getUserInfo().getUserId());
+                presenter.sendMessage(input.toString(),friendFcmToken,friendId,friendUserId);
                 visibleSendingStatus();
                 return true;
             }
         });
+
+        broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Log.wtf("MessageActivity", "Broadcast onReceive: "+ intent.getStringExtra("pushMessage"));
+
+                addMessage(intent.getStringExtra("pushMessage"), intent.getStringExtra("userId"));
+            }
+        };
+
+        this.presenter.clearNotification(friendId);
 
     }
 
@@ -106,10 +125,20 @@ public class MessagesActivity extends BaseActivity implements MessagesInterface 
         tvSendingMessage.setVisibility(View.GONE);
     }
 
-
     @Override
     public Context getContext() {
         return MessagesActivity.this;
+    }
+
+    public void onStart() {
+        super.onStart();
+        isMessageActivityRunning = true;
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(this.broadcastReceiver, new IntentFilter("messages"));
+    }
+
+    public void onStop() {
+        super.onStop();
+        isMessageActivityRunning = false;
     }
 
 }

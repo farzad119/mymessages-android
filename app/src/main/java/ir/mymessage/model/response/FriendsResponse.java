@@ -3,23 +3,25 @@ package ir.mymessage.model.response;
 import com.google.gson.annotations.SerializedName;
 
 public class FriendsResponse {
-    @SerializedName("user_id")
-    private String userId;
-    @SerializedName("nickname")
-	private String nickname;
-    @SerializedName("friend_id")
-	private String friendId;
-	@SerializedName("friend_user_id")
-	private String friendUserId;
-    @SerializedName("friend_nickname")
-	private String friendNickname;
-    @SerializedName("updated_at")
-    private String updatedAt;
     @SerializedName("created_at")
     private String createdAt;
+    @SerializedName("fcm_token")
+    private String fcmToken;
+    @SerializedName("friend_id")
+    private String friendId;
+    @SerializedName("friend_nickname")
+    private String friendNickname;
+    @SerializedName("friend_user_id")
+    private String friendUserId;
+    @SerializedName("nickname")
+    private String nickname;
+    @SerializedName("updated_at")
+    private String updatedAt;
+    @SerializedName("user_id")
+    private String userId;
 
     public String getUserId() {
-        return userId;
+        return this.userId;
     }
 
     public void setUserId(String userId) {
@@ -27,7 +29,7 @@ public class FriendsResponse {
     }
 
     public String getNickname() {
-        return nickname;
+        return this.nickname;
     }
 
     public void setNickname(String nickname) {
@@ -35,7 +37,7 @@ public class FriendsResponse {
     }
 
     public String getFriendId() {
-        return friendId;
+        return this.friendId;
     }
 
     public void setFriendId(String friendId) {
@@ -43,7 +45,7 @@ public class FriendsResponse {
     }
 
     public String getFriendUserId() {
-        return friendUserId;
+        return this.friendUserId;
     }
 
     public void setFriendUserId(String friendUserId) {
@@ -51,7 +53,7 @@ public class FriendsResponse {
     }
 
     public String getFriendNickname() {
-        return friendNickname;
+        return this.friendNickname;
     }
 
     public void setFriendNickname(String friendNickname) {
@@ -59,7 +61,7 @@ public class FriendsResponse {
     }
 
     public String getUpdatedAt() {
-        return updatedAt;
+        return this.updatedAt;
     }
 
     public void setUpdatedAt(String updatedAt) {
@@ -67,14 +69,18 @@ public class FriendsResponse {
     }
 
     public String getCreatedAt() {
-        return createdAt;
+        return this.createdAt;
     }
 
     public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
 
-    public FriendsResponse() {
-	}
+    public String getFcmToken() {
+        return this.fcmToken;
+    }
 
+    public void setFcmToken(String fcmToken) {
+        this.fcmToken = fcmToken;
+    }
 }

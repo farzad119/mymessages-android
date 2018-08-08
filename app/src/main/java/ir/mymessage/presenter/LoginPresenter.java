@@ -1,6 +1,12 @@
 package ir.mymessage.presenter;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import ir.mymessage.model.response.LoginResponse;
 import ir.mymessage.model.remote.User;
@@ -34,8 +40,8 @@ public class LoginPresenter extends BasePresenter {
                         user.setNickname(response.body().getUser().getNickname());
 
                         new MySharedPrefrences(loginInterface.getContext()).saveUserInfo(user);
-                        new MySharedPrefrences(loginInterface.getContext()).login();
-                        loginInterface.startDialogsActivity();
+
+                        getFcmToken();
                     }else {
                         loginInterface.showUsernamePasswordError();
                     }
@@ -50,5 +56,37 @@ public class LoginPresenter extends BasePresenter {
         });
     }
 
+    public void getFcmToken() {
+        FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new fcmListener());
+    }
+
+    class fcmListener implements OnCompleteListener<InstanceIdResult> {
+        public void onComplete(@NonNull Task<InstanceIdResult> task) {
+            if (task.isSuccessful()) {
+                updateFcmToken(task.getResult().getToken());
+                return;
+            }
+            Log.w("LoginActivity", "getInstanceId failed", task.getException());
+        }
+    }
+
+    private void updateFcmToken(String token) {
+        this.apiService.updateFcmToken(
+                new MySharedPrefrences(loginInterface.getContext()).getUserInfo().getUserId(), token)
+                .enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        if (response.isSuccessful() && (response.body()).equals("true")) {
+                            new MySharedPrefrences(loginInterface.getContext()).login();
+                            loginInterface.startDialogsActivity();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+
+                    }
+                });
+    }
 
 }

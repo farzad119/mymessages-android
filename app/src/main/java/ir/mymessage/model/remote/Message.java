@@ -3,20 +3,21 @@ package ir.mymessage.model.remote;
 import com.google.gson.annotations.SerializedName;
 
 public class Message {
-
+    @SerializedName("content")
+    private String content;
+    @SerializedName("fcm_token")
+    private String fcmToken;
+    @SerializedName("friend_id")
+    private String friendId;
+    @SerializedName("nickname")
+    private String nickname;
+    @SerializedName("to_user_id")
+    private String toUserId;
     @SerializedName("user_id")
     private String userId;
-	@SerializedName("to_user_id")
-	private String toUserId;
-    @SerializedName("friend_id")
-	private String friendId;
-	@SerializedName("nickname")
-	private String nickname;
-	@SerializedName("content")
-	private String content;
 
     public String getFriendId() {
-        return friendId;
+        return this.friendId;
     }
 
     public void setFriendId(String friendId) {
@@ -24,7 +25,7 @@ public class Message {
     }
 
     public String getUserId() {
-        return userId;
+        return this.userId;
     }
 
     public void setUserId(String userId) {
@@ -32,7 +33,7 @@ public class Message {
     }
 
     public String getToUserId() {
-        return toUserId;
+        return this.toUserId;
     }
 
     public void setToUserId(String toUserId) {
@@ -40,7 +41,7 @@ public class Message {
     }
 
     public String getNickname() {
-        return nickname;
+        return this.nickname;
     }
 
     public void setNickname(String nickname) {
@@ -48,10 +49,18 @@ public class Message {
     }
 
     public String getContent() {
-        return content;
+        return this.content;
     }
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getFcmToken() {
+        return this.fcmToken;
+    }
+
+    public void setFcmToken(String fcmToken) {
+        this.fcmToken = fcmToken;
     }
 }

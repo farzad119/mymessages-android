@@ -6,35 +6,37 @@ import com.stfalcon.chatkit.commons.models.IUser;
  * Created by troy379 on 04.04.17.
  */
 public class UserLocal implements IUser {
-
+    private String avatar;
+    private String fcmToken;
     private String id;
     private String name;
-    private String avatar;
     private boolean online;
 
-    public UserLocal(String id, String name, String avatar, boolean online) {
+    public UserLocal(String id, String name, String avatar, boolean online, String fcmToken) {
         this.id = id;
         this.name = name;
         this.avatar = avatar;
         this.online = online;
+        this.fcmToken = fcmToken;
     }
 
-    @Override
     public String getId() {
-        return id;
+        return this.id;
     }
 
-    @Override
     public String getName() {
-        return name;
+        return this.name;
     }
 
-    @Override
     public String getAvatar() {
-        return avatar;
+        return this.avatar;
     }
 
     public boolean isOnline() {
-        return online;
+        return this.online;
+    }
+
+    public String getFcmToken() {
+        return this.fcmToken;
     }
 }
