@@ -17,49 +17,51 @@ public class User {
 	String userId;
 	@SerializedName("username")
 	String username;
+	@SerializedName("email")
+	String email;
+
+	public String getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(String createdAt) {
+		this.createdAt = createdAt;
+	}
 
 	public int getId() {
-		return this.id;
+		return id;
 	}
 
 	public void setId(int id) {
 		this.id = id;
 	}
 
-	public String getUserId() {
-		return this.userId;
+	public String getJoinedOn() {
+		return joinedOn;
 	}
 
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-
-	public String getUsername() {
-		return this.username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getPassword() {
-		return this.password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
+	public void setJoinedOn(String joinedOn) {
+		this.joinedOn = joinedOn;
 	}
 
 	public String getNickname() {
-		return this.nickname;
+		return nickname;
 	}
 
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
 
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	public String getProfileImage() {
-		return this.profileImage;
+		return profileImage;
 	}
 
 	public void setProfileImage(String profileImage) {
@@ -67,26 +69,34 @@ public class User {
 	}
 
 	public String getUpdatedAt() {
-		return this.updatedAt;
+		return updatedAt;
 	}
 
 	public void setUpdatedAt(String updatedAt) {
 		this.updatedAt = updatedAt;
 	}
 
-	public String getCreatedAt() {
-		return this.createdAt;
+	public String getUserId() {
+		return userId;
 	}
 
-	public void setCreatedAt(String createdAt) {
-		this.createdAt = createdAt;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
-	public String getJoinedOn() {
-		return this.joinedOn;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setJoinedOn(String joinedOn) {
-		this.joinedOn = joinedOn;
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 }

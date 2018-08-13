@@ -29,20 +29,22 @@ public class LoginPresenter extends BasePresenter {
         User login = new User();
         login.setUsername(loginInterface.getUserName());
         login.setPassword(loginInterface.getPassword());
+        loginInterface.showProgress();
         apiService.login(login).enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                loginInterface.hideProgress();
                 if (response.isSuccessful()) {
-                    if (response.body().getStatus()){
+                    if (response.body().getStatus()) {
                         User user = new User();
                         user.setUserId(response.body().getUser().getUserId());
                         user.setUsername(response.body().getUser().getUsername());
                         user.setNickname(response.body().getUser().getNickname());
 
                         new MySharedPrefrences(loginInterface.getContext()).saveUserInfo(user);
-
-                        getFcmToken();
-                    }else {
+                        new MySharedPrefrences(loginInterface.getContext()).login();
+                        loginInterface.startDialogsActivity();
+                    } else {
                         loginInterface.showUsernamePasswordError();
                     }
                 }
@@ -55,38 +57,4 @@ public class LoginPresenter extends BasePresenter {
             }
         });
     }
-
-    public void getFcmToken() {
-        FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new fcmListener());
-    }
-
-    class fcmListener implements OnCompleteListener<InstanceIdResult> {
-        public void onComplete(@NonNull Task<InstanceIdResult> task) {
-            if (task.isSuccessful()) {
-                updateFcmToken(task.getResult().getToken());
-                return;
-            }
-            Log.w("LoginActivity", "getInstanceId failed", task.getException());
-        }
-    }
-
-    private void updateFcmToken(String token) {
-        this.apiService.updateFcmToken(
-                new MySharedPrefrences(loginInterface.getContext()).getUserInfo().getUserId(), token)
-                .enqueue(new Callback<String>() {
-                    @Override
-                    public void onResponse(Call<String> call, Response<String> response) {
-                        if (response.isSuccessful() && (response.body()).equals("true")) {
-                            new MySharedPrefrences(loginInterface.getContext()).login();
-                            loginInterface.startDialogsActivity();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<String> call, Throwable t) {
-
-                    }
-                });
-    }
-
 }

@@ -7,7 +7,10 @@ public interface LoginInterface {
     String getPassword();
     void setupLoginActivity();
     void onLoginClicked();
-    Context getContext();
     void startDialogsActivity();
+    void startSignupActivity();
     void showUsernamePasswordError();
+    void showProgress();
+    void hideProgress();
+    Context getContext();
 }

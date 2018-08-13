@@ -39,6 +39,8 @@ public class MessagesActivity extends BaseActivity implements MessagesInterface 
     MessageInput input;
     @BindView(R.id.tv_sending_message)
     TextView tvSendingMessage;
+    @BindView(R.id.tv_title)
+    TextView tvTitle;
 
     public static boolean isMessageActivityRunning = false;
     MessagesPresenter presenter;
@@ -104,6 +106,8 @@ public class MessagesActivity extends BaseActivity implements MessagesInterface 
         };
 
         this.presenter.clearNotification(friendId);
+
+        tvTitle.setText(friendNickname);
 
     }
 

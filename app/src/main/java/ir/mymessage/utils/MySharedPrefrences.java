@@ -42,6 +42,19 @@ public class MySharedPrefrences {
 
     public Boolean isLoggedIn(){
         return mPreferences.getBoolean("isLoggedIn",false);
+    }
 
-    };
+    public String getUserId(){
+        return mPreferences.getString("userId","");
+    }
+
+    public void saveFcmToken(){
+        mPreferences.edit()
+                .putBoolean("isSavedFcmToken",true)
+                .apply();
+    }
+
+    public boolean isSavedFcmToken(){
+        return mPreferences.getBoolean("isSavedFcmToken",false);
+    }
 }

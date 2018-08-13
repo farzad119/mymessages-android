@@ -7,13 +7,14 @@ import android.mymessage.R;
 import butterknife.BindView;
 import ir.mymessage.model.local.DialogLocal;
 import ir.mymessage.presenter.DialogsPresenter;
+import ir.mymessage.utils.MySharedPrefrences;
 import ir.mymessage.view.base.BaseActivity;
 import ir.mymessage.view.interfaces.DialogsInterface;
 
 import android.os.Bundle;
-import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.stfalcon.chatkit.commons.ImageLoader;
@@ -26,7 +27,9 @@ public class DialogsActivity extends BaseActivity implements DialogsInterface {
 
     @BindView(R.id.dialogsList)
     DialogsList dialogsList;
-    DialogsPresenter dialogsPresenter;
+    @BindView(R.id.btn_addfriend)
+    Button btnAddFriend;
+    DialogsPresenter presenter;
     DialogsListAdapter<DialogLocal> dialogsListAdapter;
 
     @Override
@@ -38,8 +41,14 @@ public class DialogsActivity extends BaseActivity implements DialogsInterface {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        dialogsPresenter = new DialogsPresenter(this);
+        presenter = new DialogsPresenter(this);
         setupDialogsActivity();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        presenter.getDialogs();
     }
 
     @Override
@@ -59,6 +68,7 @@ public class DialogsActivity extends BaseActivity implements DialogsInterface {
 
     @Override
     public void displayDialogs(ArrayList<DialogLocal> dialogArrayList) {
+        dialogsListAdapter.clear();
         dialogsList.setAdapter(dialogsListAdapter);
         dialogsListAdapter.addItems(dialogArrayList);
     }
@@ -70,19 +80,31 @@ public class DialogsActivity extends BaseActivity implements DialogsInterface {
 
     @Override
     public void setupDialogsActivity() {
+
         dialogsListAdapter = new DialogsListAdapter<>(new ImageLoader() {
             @Override
             public void loadImage(ImageView imageView, String url) {
-                //Glide.with(DialogsActivity.this).load(url).into(imageView);
+                Glide.with(DialogsActivity.this).load(url).into(imageView);
             }
         });
 
-        dialogsPresenter.getDialogs();
+        if (!new MySharedPrefrences(this).isSavedFcmToken()) {
+            presenter.updateFcmToken();
+        }
+
+        presenter.getDialogs();
 
         dialogsListAdapter.setOnDialogClickListener(new DialogsListAdapter.OnDialogClickListener<DialogLocal>() {
             @Override
             public void onDialogClick(DialogLocal dialog) {
                 startMessagesActivity(dialog);
+            }
+        });
+
+        btnAddFriend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startFriendsActivity();
             }
         });
     }

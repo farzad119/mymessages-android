@@ -1,16 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="ir.mymessage.view.activities.DialogsActivity">
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/rtl_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_centerInParent="false"
+        android:background="@color/colorPrimary"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="false"
+            android:layout_marginLeft="20dp"
+            android:text="MyMessages"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+    </RelativeLayout>
 
     <com.stfalcon.chatkit.dialogs.DialogsList
         android:id="@+id/dialogsList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:dialogAvatarWidth="0dp"/>
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btn_addfriend"
+        android:layout_below="@+id/rtl_toolbar" />
+
+    <Button
+        android:id="@+id/btn_addfriend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/green"
+        android:text="Friends"
+        android:textColor="@color/white" />
+
 
 </RelativeLayout>
