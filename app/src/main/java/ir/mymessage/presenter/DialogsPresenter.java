@@ -31,10 +31,12 @@ public class DialogsPresenter extends BasePresenter {
     }
 
     public void getDialogs() {
+        dialogsInterface.showProgress();
         apiService.dialogs(new MySharedPrefrences(dialogsInterface.getContext()).getUserInfo().getUserId())
                 .enqueue(new Callback<ArrayList<DialogsResponse>>() {
                     @Override
                     public void onResponse(Call<ArrayList<DialogsResponse>> call, Response<ArrayList<DialogsResponse>> response) {
+                        dialogsInterface.hideProgress();
                         if (response.isSuccessful()) {
                             ArrayList<UserLocal> userArrayList = new ArrayList<>();
                             ArrayList<DialogLocal> dialogArrayList = new ArrayList<>();

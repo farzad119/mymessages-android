@@ -10,9 +10,9 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.stfalcon.chatkit.commons.ImageLoader;
 import com.stfalcon.chatkit.messages.MessageInput;
 import com.stfalcon.chatkit.messages.MessagesList;
@@ -23,9 +23,6 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import ir.mymessage.model.local.MessageLocal;
 import ir.mymessage.model.local.UserLocal;
-import ir.mymessage.model.remote.Message;
-import ir.mymessage.model.remote.User;
-import ir.mymessage.model.response.MessagesResponse;
 import ir.mymessage.presenter.MessagesPresenter;
 import ir.mymessage.utils.MySharedPrefrences;
 import ir.mymessage.view.base.BaseActivity;
@@ -41,6 +38,8 @@ public class MessagesActivity extends BaseActivity implements MessagesInterface 
     TextView tvSendingMessage;
     @BindView(R.id.tv_title)
     TextView tvTitle;
+    @BindView(R.id.rtl_progress)
+    RelativeLayout rtlProgress;
 
     public static boolean isMessageActivityRunning = false;
     MessagesPresenter presenter;
@@ -90,8 +89,8 @@ public class MessagesActivity extends BaseActivity implements MessagesInterface 
             @Override
             public boolean onSubmit(CharSequence input) {
                 MessagesActivity.this.addMessage(input.toString(), new MySharedPrefrences(MessagesActivity.this.getContext()).getUserInfo().getUserId());
-                presenter.sendMessage(input.toString(),friendFcmToken,friendId,friendUserId);
-                visibleSendingStatus();
+                presenter.sendMessage(input.toString(), friendFcmToken, friendId, friendUserId);
+                showSendingStatus();
                 return true;
             }
         });
@@ -99,7 +98,7 @@ public class MessagesActivity extends BaseActivity implements MessagesInterface 
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                Log.wtf("MessageActivity", "Broadcast onReceive: "+ intent.getStringExtra("pushMessage"));
+                Log.wtf("MessageActivity", "Broadcast onReceive: " + intent.getStringExtra("pushMessage"));
 
                 addMessage(intent.getStringExtra("pushMessage"), intent.getStringExtra("userId"));
             }
@@ -114,19 +113,29 @@ public class MessagesActivity extends BaseActivity implements MessagesInterface 
     @Override
     public void displayMessages(ArrayList<MessageLocal> messageArrayList) {
         messagesList.setAdapter(adapter);
-        Log.wtf("MessageActivity", "onResponse: "+messageArrayList.get(0).getText());
+        Log.wtf("MessageActivity", "onResponse: " + messageArrayList.get(0).getText());
 
         adapter.addToEnd(messageArrayList, true);
     }
 
     @Override
-    public void visibleSendingStatus() {
+    public void showSendingStatus() {
         tvSendingMessage.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideSendingStatus() {
         tvSendingMessage.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showProgress() {
+        rtlProgress.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        rtlProgress.setVisibility(View.GONE);
     }
 
     @Override

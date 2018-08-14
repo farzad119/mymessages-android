@@ -31,11 +31,11 @@ public class MessagesPresenter extends BasePresenter {
     }
 
     public void getMessages(final String friendId) {
-        Log.wtf("MessagesPresenter", "friendId : " + friendId);
-
+        messagesInterface.showProgress();
         apiService.messages(friendId).enqueue(new Callback<ArrayList<MessagesResponse>>() {
             @Override
             public void onResponse(Call<ArrayList<MessagesResponse>> call, Response<ArrayList<MessagesResponse>> response) {
+                messagesInterface.hideProgress();
                 if (response.isSuccessful() && response.body().size() > 0) {
                     ArrayList<MessageLocal> messageArrayList = new ArrayList<>();
                     for (MessagesResponse messagesResponse : response.body()) {

@@ -98,7 +98,7 @@ public class FriendActivity extends BaseActivity implements FriendsInterface {
 
     @Override
     public void hideProgress() {
-        rtlProgress.setVisibility(View.INVISIBLE);
+        rtlProgress.setVisibility(View.GONE);
     }
 
     @Override

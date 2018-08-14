@@ -11,5 +11,7 @@ public interface DialogsInterface {
     void startFriendsActivity();
     void startMessagesActivity(DialogLocal dialogLocal);
     void displayDialogs(ArrayList<DialogLocal> dialogArrayList);
+    void showProgress();
+    void hideProgress();
     Context getContext();
 }

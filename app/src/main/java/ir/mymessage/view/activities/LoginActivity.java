@@ -116,6 +116,6 @@ public class LoginActivity extends BaseActivity implements LoginInterface {
 
     @Override
     public void hideProgress() {
-        rtlProgress.setVisibility(View.INVISIBLE);
+        rtlProgress.setVisibility(View.GONE);
     }
 }

@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
 import com.stfalcon.chatkit.commons.ImageLoader;
@@ -29,6 +30,8 @@ public class DialogsActivity extends BaseActivity implements DialogsInterface {
     DialogsList dialogsList;
     @BindView(R.id.btn_addfriend)
     Button btnAddFriend;
+    @BindView(R.id.rtl_progress)
+    RelativeLayout rtlProgress;
     DialogsPresenter presenter;
     DialogsListAdapter<DialogLocal> dialogsListAdapter;
 
@@ -74,13 +77,22 @@ public class DialogsActivity extends BaseActivity implements DialogsInterface {
     }
 
     @Override
+    public void showProgress() {
+        rtlProgress.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        rtlProgress.setVisibility(View.GONE);
+    }
+
+    @Override
     public Context getContext() {
         return DialogsActivity.this;
     }
 
     @Override
     public void setupDialogsActivity() {
-
         dialogsListAdapter = new DialogsListAdapter<>(new ImageLoader() {
             @Override
             public void loadImage(ImageView imageView, String url) {

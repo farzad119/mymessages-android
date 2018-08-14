@@ -23,6 +23,8 @@
             android:textSize="18sp" />
     </RelativeLayout>
 
+
+
     <com.stfalcon.chatkit.messages.MessagesList
         android:id="@+id/messagesList"
         android:layout_width="match_parent"
@@ -59,5 +61,23 @@
         app:inputButtonDefaultBgColor="@color/colorPrimary"
         app:inputButtonDefaultBgPressedColor="@color/colorPrimary"
         />
+
+    <RelativeLayout
+        android:id="@+id/rtl_progress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rtl_toolbar"
+        android:clickable="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <ProgressBar
+            style="@style/Widget.AppCompat.ProgressBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="visible" />
+    </RelativeLayout>
 
 </RelativeLayout>
