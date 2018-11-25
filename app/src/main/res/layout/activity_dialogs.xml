@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/night">
 
     <RelativeLayout
         android:id="@+id/rtl_toolbar"
@@ -29,7 +30,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/btn_addfriend"
-        android:layout_below="@+id/rtl_toolbar" />
+        android:layout_below="@+id/rtl_toolbar"
+        app:dialogDividerColor="@color/gray"
+        app:dialogTitleTextColor="@color/input_color" />
 
     <Button
         android:id="@+id/btn_addfriend"

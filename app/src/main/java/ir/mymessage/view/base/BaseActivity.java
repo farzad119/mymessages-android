@@ -6,16 +6,15 @@ import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.v7.app.AppCompatActivity;
 
+import com.vanniktech.emoji.EmojiManager;
+import com.vanniktech.emoji.ios.IosEmojiProvider;
+
 import butterknife.ButterKnife;
 import io.reactivex.annotations.Nullable;
-import ir.mymessage.service.ApiClient;
-import ir.mymessage.service.ApiInterface;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public abstract class BaseActivity extends AppCompatActivity {
-
-    public static int NO_RES = 0;
 
     @LayoutRes
     protected abstract int getContentViewRes();
@@ -30,6 +29,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                 .setFontAttrId(R.attr.fontPath)
                 .build()
         );
+        EmojiManager.install(new IosEmojiProvider());
     }
 
     @Override

@@ -8,60 +8,64 @@
     tools:context="ir.mymessage.view.activities.LoginActivity">
 
 
-    <RelativeLayout
-        android:id="@+id/rtl_content"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:padding="40dp">
-
-        <LinearLayout
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:id="@+id/rtl_content"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:padding="40dp">
 
-            <EditText
-                android:id="@+id/etUsername"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="false"
-                android:layout_centerHorizontal="false"
-                android:layout_weight="1"
-                android:ems="10"
-                android:hint="username"
-                android:inputType="textPersonName" />
+                android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/etPassword"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="false"
-                android:layout_marginTop="20dp"
-                android:ems="10"
-                android:hint="password"
-                android:inputType="textPassword" />
+                <EditText
+                    android:id="@+id/et_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="false"
+                    android:layout_centerHorizontal="false"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="username"
+                    android:inputType="textPersonName" />
 
-            <Button
-                android:id="@+id/btnLogin"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="false"
-                android:layout_margin="20dp"
-                android:background="@color/green"
-                android:text="Login"
-                android:textColor="@color/white" />
+                <EditText
+                    android:id="@+id/et_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="false"
+                    android:layout_marginTop="20dp"
+                    android:ems="10"
+                    android:hint="password"
+                    android:inputType="textPassword" />
 
-            <TextView
-                android:id="@+id/tv_signup"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:gravity="center"
-                android:text="Signup" />
-        </LinearLayout>
+                <Button
+                    android:id="@+id/btn_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="false"
+                    android:layout_margin="20dp"
+                    android:background="@color/green"
+                    android:text="Login"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/tv_signup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:gravity="center"
+                    android:text="Signup" />
+            </LinearLayout>
 
 
-    </RelativeLayout>
+        </RelativeLayout>
+    </ScrollView>
 
     <RelativeLayout
         android:id="@+id/rtl_progress"
